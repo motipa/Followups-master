@@ -1,0 +1,91 @@
+﻿@model UserResultViewModel
+@{ Layout = "~/Views/Shared/_LayoutUser.cshtml"; }
+
+@{ ViewData["Title"] = "Home Page"; }
+
+<div class="main-panel">
+    @using (Html.BeginForm("Search", "User", FormMethod.Post, new { @class = "forms-sample" }))
+    {
+<div class="row">
+    <table class="text-white">
+        <tr>
+            <td>
+
+                <label>From Date</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(a => a.SearchDate.FromDate, new { @type = "date", @class = "form-control text-white" })
+            </td>
+            <td>
+                <label>To Date</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(a => a.SearchDate.ToDate, new { @type = "date", @class = "form-control text-white" })               
+
+            </td>
+            <td>
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+
+        </tr>
+    </table>
+</div> 
+    }
+                                <hr />
+                                                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                {
+                                @Html.AntiForgeryToken()
+
+                                                    <table class="table table-striped text-white" id="tblLoad">
+                                                        <thead>
+                                                            <tr>
+                                                                <td><B>Phone</B></td>
+                                                                <td>Country</td>
+                                                                <td>Customer's Interest</td>
+                                                                <td>Date of Contact</td>
+                                                                <td>ID Status</td>
+                                                                <td>Sales Person</td>
+
+                                                            </tr>
+                                                        </thead>
+                                                        @for (int i = 0; i <= Model.UserResultviewCustomer.Count - 1; i++)
+                                                        {
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(a => Model.UserResultviewCustomer[i].Phone, new { @class = "form-control" })
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => m.UserResultviewCustomer[i].CountryId,
+                                                                                                    new { @class = "form-control text-white" })
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CustomerInterest,
+                                                                                                           new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                                                               "Select Status", new { @class = "form-control text-white" })
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
+                                                @*<input type="date" id="DateContact" name="DateContact">*@
+                                            </td>
+                                            <td>
+                                                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,
+                                                                                                   new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                                                                   "Select Status", new { @class = "form-control text-white" })
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => m.UserResultviewCustomer[i].SalesPersonId,
+                                                                                                new { @class = "form-control text-white" })
+                                            </td>
+                                        </tr>
+                                    </tbody>}
+
+                                                    </table>
+                                                                        <hr />
+                                                                                            <input type="submit" value="Save" class="btn btn-success" />}
+                                                            </div>
