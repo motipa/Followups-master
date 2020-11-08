@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Followups.Models;
 using Followups.Models.DB;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,7 @@ namespace Followups
 
             //Entity Framework  
             services.AddDbContext<FollowUpDbContext>(options => options.UseSqlServer(ConnectionString));
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

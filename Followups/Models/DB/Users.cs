@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Followups.Models.DB
 {
-    public partial class User
+    public partial class Users
     {
         public int Id { get; set; }
         public string Username { get; set; }
