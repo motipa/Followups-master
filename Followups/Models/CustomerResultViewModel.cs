@@ -10,6 +10,9 @@ namespace Followups.Models
     public class CustomerResultViewModel
     {
         public List<Customer> ResultCustomer { get; set; }
+
+        public int custPageNumber { get; set; }
+        public int custCurrentPageNumber { get; set; }
         public Customer Customer { get; set; }
         public List<Employee> ResultSalesPerson { get; set; }
         public List<Countries> ResultCountry { get; set; }        

@@ -146,10 +146,7 @@ namespace Followups.Controllers
             return _Customer;
         }
        
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+      
 
         public IActionResult AddUser()
         {
@@ -181,7 +178,26 @@ namespace Followups.Controllers
             return View();
             
         }
+        private CustomerResultViewModel GetCustomers(int currentPage)
+        {
+            int maxRows = 10;
+            CustomerResultViewModel customerModel = new CustomerResultViewModel();
 
+            customerModel.ResultCustomer = new List<Customer>();
+           var result = (from customer in this._followupsContext.CustomerFollowUp
+                                       select customer)
+                        .OrderBy(customer => customer.FollowId)
+                        .Skip((currentPage - 1) * maxRows)
+                        .Take(maxRows).ToList();
+
+            double pageCount = (double)((decimal)this._followupsContext.CustomerFollowUp.Count() / Convert.ToDecimal(maxRows));
+            customerModel.custPageNumber = (int)Math.Ceiling(pageCount);
+           
+            customerModel.ResultCustomer= _mapper.Map<List<CustomerFollowUp>, List<Customer>>(result);
+            customerModel.custCurrentPageNumber = currentPage;
+
+            return customerModel;
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
