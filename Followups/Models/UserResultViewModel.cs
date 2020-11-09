@@ -11,5 +11,7 @@ namespace Followups.Models
     {
         public List<CustomerFollowUp> UserResultviewCustomer { get; set; }
         public SearchModel SearchDate { get; set; }
+        public List<Countries> CountryResult { get; set; }
+        public List<Employee> ResultSalesPerson { get; set; }
     }
 }
