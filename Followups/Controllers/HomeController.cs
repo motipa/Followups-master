@@ -82,13 +82,17 @@ namespace Followups.Controllers
             {
                 if (customers.ResultCustomer != null)
                 {
+                    
                     using (var context = new FollowUpDbContext())
                     {
                         foreach (var item in customers.ResultCustomer)
                         {
-                            CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(item);
-                            context.CustomerFollowUp.Add(CustResult);
-                            context.SaveChanges();
+                            if (item.SalesPersonId != 0)
+                            {
+                                CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(item);
+                                context.CustomerFollowUp.Add(CustResult);
+                                context.SaveChanges();
+                            }
                         }
                     }
                    

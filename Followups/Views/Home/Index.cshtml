@@ -16,169 +16,176 @@
                     <div class="col-sm-3"><input type="submit" value="Upload" class="btn btn-primary" /></div>
                 </div>
                 <div class="form-group row col-sm-4">
-                    
-                   
+
+
                     <div class="col-sm-9 ">
 
                         <a class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="createbuttonDropdown" href="#">+ Add New Customer</a>
 
                     </div>
                 </div>
-               
+
             </div>
-            </div>
-            <hr />
-</form>
+        </div>
+        <hr />
+    </form>
     @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-@Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-                <table class="table table-striped text-white" id="tblLoad">
-                    <thead>
-                        <tr>
-                            <td><B>Phone</B></td>
-                            <td>Country</td>
-                            <td>Customer's Interest</td>
-                            <td>Date of Contact</td>
-                            <td>ID Status</td>
-                            <td>Sales Person</td>
+        <table class="table table-striped text-white" id="tblLoad">
+            <thead>
+                <tr>
+                    <td><B>Phone</B></td>
+                    <td>Country</td>
+                    <td>Customer's Interest</td>
+                    <td>Date of Contact</td>
+                    <td>ID Status</td>
+                    <td>Sales Person</td>
 
-                        </tr>
-                    </thead>
-                    @for (int i = 0; i <= Model.ResultCustomer.Count - 1; i++)
-                    {
-    <tbody>
-        <tr>
-            <td>
-                @Html.TextBoxFor(a => Model.ResultCustomer[i].Phone, new { @class = "form-control" })
-                @*<label asp-for="@item.Phone" id="lblPhone">@item.Phone</label>*@
-                @*<input type="text" asp-for="@item.Phone" />*@
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].CountryId,
-                                              new SelectList(ViewBag.Country, "PhoneCode", "Name"),
-                                               new { @class = "form-control text-white" })
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].CustomerInterest,
-                                                  new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                                  "Select Status", new { @class = "form-control text-white" })
-            </td>
-            <td>
-                @Html.TextBoxFor(a => Model.ResultCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
-                @*<input type="date" id="DateContact" name="DateContact">*@
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].Idstatus,
-                                              new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                              "Select Status", new { @class = "form-control text-white" })
+                </tr>
+            </thead>
+            @for (int i = 0; i <= Model.ResultCustomer.Count - 1; i++)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(a => Model.ResultCustomer[i].Phone, new { @class = "form-control" })
+                            @*<label asp-for="@item.Phone" id="lblPhone">@item.Phone</label>*@
+                            @*<input type="text" asp-for="@item.Phone" />*@
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.ResultCustomer[i].CountryId,
+                                                          new SelectList(ViewBag.Country, "PhoneCode", "Name"),
+                                                           new { @class = "form-control text-white" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.ResultCustomer[i].CustomerInterest,
+                                                              new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                              "Select Status", new { @class = "form-control text-white" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(a => Model.ResultCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
+                            @*<input type="date" id="DateContact" name="DateContact">*@
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.ResultCustomer[i].Idstatus,
+                                                          new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                          "Select Status", new { @class = "form-control text-white" })
 
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].SalesPersonId,
-                                                  new SelectList(ViewBag.SalesPerson, "Id", "Name"),
-                                                   new { @class = "form-control text-white", @required = "required" })
-            </td>
-        </tr>
-    </tbody>
-}
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.ResultCustomer[i].SalesPersonId,
+                                                              new SelectList(ViewBag.SalesPerson, "Id", "Name"),
+                                                               new { @class = "form-control text-white", @required = "required" })
+                        </td>
+                    </tr>
+                </tbody>
+            }
 
-                </table>
-                <hr />
-                                <input type="submit" value="Save" class="btn btn-success" />}
+        </table>
+        <hr />
+        <input type="submit" value="Save" class="btn btn-success" />}
 </div>
 
 
-        <!-- Modal -->
-                                                                                                                 
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">X</button>
+<!-- Modal -->
 
-                    </div>
-                    <div id="NewPopDiv">
-                        <div class="col-md-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Add Customer Details</h4>
-                                    <p class="card-description">  </p>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">X</button>
 
-                                    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "forms-sample" }))
-                                    {
+            </div>
+            <div id="NewPopDiv">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Customer Details</h4>
+                            <p class="card-description">  </p>
+
+                            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "forms-sample" }))
+                            {
 
 
-                                        <div class="form-group row">
-                                            <label for="Phone" class="col-sm-3 col-form-label">Phone</label>
-                                            <div class="col-sm-9">
+                                <div class="form-group row">
+                                    <label for="Phone" class="col-sm-3 col-form-label">Phone</label>
+                                    <div class="col-sm-9">
 
-                                                @Html.TextBoxFor(a => a.Customer.Phone, new { @class = "form-control text-white", @required= "required" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="Country" class="col-sm-3 col-form-label">Country</label>
-                                            <div class="col-sm-9">
-                                                @Html.DropDownListFor(b => b.Customer.CountryId,
-                                                                                new SelectList(ViewBag.Country, "PhoneCode", "Name")
-                                                                                , new { @class = "form-control text-white" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="Interest" class="col-sm-3 col-form-label">Customer Interest</label>
-                                            <div class="col-sm-9">
-                                                @Html.DropDownListFor(b => b.Customer.CustomerInterest,
-                                                                                     new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                                                                     "Select Status", new { @class = "form-control text-white" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="Contact" class="col-sm-3 col-form-label">Contact Date</label>
-                                            <div class="col-sm-9">
-                                                @Html.TextBoxFor(a => a.Customer.DateOfContact, new { @type = "date", @class = "form-control text-white" })
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="Status" class="col-sm-3 col-form-label">ID Status</label>
-                                            <div class="col-sm-9">
-                                                @Html.DropDownListFor(b => b.Customer.Idstatus,
-                                                                                new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                                                                "Select Status", new { @class = "form-control text-white" })
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="Status" class="col-sm-3 col-form-label">Sales Person</label>
-                                            <div class="col-sm-9">
-
-                                                @Html.DropDownListFor(b => b.Customer.SalesPersonId,
-                                                                                    new SelectList(ViewBag.SalesPerson, "Id", "Name"),
-                                                                                     new { @class = "form-control text-white" })
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mr-2">Save</button>
-                                        @*<button class="btn btn-dark cancel">Cancel</button>*@}
+                                        @Html.TextBoxFor(a => a.Customer.Phone, new { @class = "form-control text-white", @required = "required" })
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-group row">
+                                    <label for="Country" class="col-sm-3 col-form-label">Country</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(b => b.Customer.CountryId,
+                                                                        new SelectList(ViewBag.Country, "PhoneCode", "Name")
+                                                                        , new { @class = "form-control text-white" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Interest" class="col-sm-3 col-form-label">Customer Interest</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(b => b.Customer.CustomerInterest,
+                                                                             new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                                             "Select Status", new { @class = "form-control text-white" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Contact" class="col-sm-3 col-form-label">Contact Date</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(a => a.Customer.DateOfContact, new { @type = "date", @class = "form-control text-white" })
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Status" class="col-sm-3 col-form-label">ID Status</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(b => b.Customer.Idstatus,
+                                                                        new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                                                                        "Select Status", new { @class = "form-control text-white" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Status" class="col-sm-3 col-form-label">Sales Person</label>
+                                    <div class="col-sm-9">
+
+                                        @Html.DropDownListFor(b => b.Customer.SalesPersonId,
+                                                                            new SelectList(ViewBag.SalesPerson, "Id", "Name"),
+                                                                             new { @class = "form-control text-white",@id= "ddlSale" })
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2" id="btnMannual">Save</button>
+                                @*<button class="btn btn-dark">Cancel</button>*@}
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
-    
-    
-<script src="~/jquery/jquery.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#btnMannual").click(function (e) {
-            debugger
-            if ($("#ddlSales").val() === "0") {
-                alert("Please Select Sales Person")
-                // display error msg beside ddl too
-            }
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    $(document).ready(function () {       
+            $("#btnMannual").click(function () {               
+                if ($("#ddlSale").val() === "0") {
+                    alert("Please Select Sales Person")
+                    // display error msg beside ddl too
+                }
+            });
+
     });
-</script>    
+
+</script>
 

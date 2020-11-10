@@ -15,6 +15,7 @@ namespace CustomerFollow.Models
         public DateTime? DateOfContact { get; set; }
         public string Idstatus { get; set; }
         public int? CountryId { get; set; }
+        //[Required(ErrorMessage ="Please select Sales Person")]
         public int? SalesPersonId { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace Followups.Models.DB
         public string Idstatus { get; set; }
         public int? CountryId { get; set; }
         public int? SalesPersonId { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

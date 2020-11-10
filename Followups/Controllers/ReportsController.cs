@@ -22,18 +22,14 @@ namespace Followups.Controllers
         public IActionResult Index()
         {
             return View(new DateSearchModel());
-        }
-
-      
+        }      
         [HttpPost]
-        public IActionResult AjaxMethod(DateSearchModel dateSearc)
+        public IActionResult ReportResult(string d1,string d2)
         {
-            var fromdate = Convert.ToDateTime(dateSearc.fromDate);
-            var todate = Convert.ToDateTime(dateSearc.toDate);
-            var customers = this.Context.FollowupView.Where(x => x.DateOfContact >= fromdate && x.DateOfContact <= todate).ToList();
-
-            return Json(JsonConvert.SerializeObject(customers));
-          
+            DateTime d4 = Convert.ToDateTime(d1);
+            DateTime d3 = Convert.ToDateTime(d2);
+            var customers = this.Context.FollowupView.Where(x => x.DateOfContact >= d4 && x.DateOfContact <= d4).ToList();
+            return Json(JsonConvert.SerializeObject(customers));          
         }
     }
 }
