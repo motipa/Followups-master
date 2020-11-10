@@ -1,0 +1,70 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
+
+<div style="background:white">
+
+    <table width="100%" id="tblCustomers" cellpadding="0" cellspacing="0" border="1" style="border-collapse:collapse;color:white">
+        <thead>
+            <tr style="background:black">
+                <th style="width:200px">Phone</th>
+                <th style="width:200px">Customer Interest</th>
+                <th style="width:200px">Date of Contact</th>
+                <th style="width:200px">ID Status</th>
+                <th style="width:200px">Country</th>
+                <th style="width:200px">Sales Person</th>
+            </tr>
+        </thead>
+        <tbody style="color:black"></tbody>
+    </table>
+
+</div>
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Reports/AjaxMethod",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response);
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    });
+    function OnSuccess(response) {
+        var customers = eval(response);
+
+        $("#tblCustomers").DataTable(
+            {
+                bLengthChange: true,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+                bFilter: true,
+                bSort: true,
+               
+                bPaginate: true,
+                data: customers,
+                columns: [{ 'data': 'Phone' },
+                { 'data': 'CustomerInterest' },
+                    { 'data': 'DateOfContact' },
+                    { 'data': 'Idstatus' },
+                    { 'data': 'Country' },
+                    { 'data': 'Employee' }],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+
+    };
+
+</script>

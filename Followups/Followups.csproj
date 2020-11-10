@@ -933,6 +933,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\ssb-tables\js\admin.js" />
+    <None Include="wwwroot\ssb-tables\js\demo.js" />
+    <None Include="wwwroot\ssb-tables\js\pages\tables\editable-table.js" />
+    <None Include="wwwroot\ssb-tables\js\pages\tables\jquery-datatable.js" />
+    <None Include="wwwroot\ssb-tables\plugins\bootstrap-select\js\bootstrap-select.js" />
+    <None Include="wwwroot\ssb-tables\plugins\bootstrap\js\bootstrap.js" />
+    <None Include="wwwroot\ssb-tables\plugins\editable-table\mindmup-editabletable.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\buttons.flash.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\buttons.html5.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\buttons.print.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\dataTables.buttons.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\jszip.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\pdfmake.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\extensions\export\vfs_fonts.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\jquery.dataTables.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-datatable\skin\bootstrap\js\dataTables.bootstrap.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery-slimscroll\jquery.slimscroll.js" />
+    <None Include="wwwroot\ssb-tables\plugins\jquery\jquery.min.js" />
+    <None Include="wwwroot\ssb-tables\plugins\node-waves\waves.js" />
     <None Include="wwwroot\ssb\.DS_Store" />
     <None Include="wwwroot\ssb\.gitignore" />
     <None Include="wwwroot\ssb\CHANGELOG.md" />
@@ -1863,6 +1882,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="jquery.datatables" Version="1.10.15" />
+    <PackageReference Include="jquery.dataTables.columnFilter" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">

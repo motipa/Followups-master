@@ -18,6 +18,7 @@ namespace Followups.Models.DB
         public virtual DbSet<Countries> Countries { get; set; }
         public virtual DbSet<CustomerFollowUp> CustomerFollowUp { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<FollowupView> FollowupView { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -93,6 +94,35 @@ namespace Followups.Models.DB
                     .HasColumnName("phone")
                     .HasMaxLength(10)
                     .IsFixedLength();
+            });
+
+            modelBuilder.Entity<FollowupView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("followupView");
+
+                entity.Property(e => e.Country)
+                    .HasColumnName("country")
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CustomerInterest)
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateOfContact).HasColumnType("datetime");
+
+                entity.Property(e => e.Employee)
+                    .HasColumnName("employee")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Idstatus)
+                    .HasColumnName("IDStatus")
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone).HasMaxLength(15);
             });
 
             modelBuilder.Entity<User>(entity =>

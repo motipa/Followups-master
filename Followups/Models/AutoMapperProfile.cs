@@ -16,7 +16,6 @@ namespace Followups.Models
             CreateMap<EmployeeViewModel, Employee>();
             CreateMap<Customer, CustomerFollowUp>();
             CreateMap<CustomerFollowUp, Customer>();
-            
         }
     }
 }

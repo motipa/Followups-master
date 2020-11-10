@@ -96,19 +96,11 @@ namespace Followups.Controllers
                 //Save Details Mannually
                 if (customers.Customer != null)
                 {
-                    var details = customers.Customer;
-                    string d = "1/1/0001 12:00:00 AM";
-                    DateTime Defaultdate = Convert.ToDateTime(d);
-                    if (customers.Customer.DateOfContact != Defaultdate)
-                    {
+                    var details = customers.Customer;                   
                         CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(customers.Customer);
                         _followupsContext.CustomerFollowUp.Add(CustResult);
-                        _followupsContext.SaveChanges();                       
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index");
-                    }
+                        _followupsContext.SaveChanges();                      
+                    
                 }
                 return RedirectToAction("Index");
             }
@@ -144,12 +136,6 @@ namespace Followups.Controllers
             }
             return _Customer;
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult AddUser()
         {
             return View();
@@ -182,7 +168,26 @@ namespace Followups.Controllers
             return View();
 
         }
+        private CustomerResultViewModel GetCustomers(int currentPage)
+        {
+            int maxRows = 10;
+            CustomerResultViewModel customerModel = new CustomerResultViewModel();
 
+            customerModel.ResultCustomer = new List<Customer>();
+           var result = (from customer in this._followupsContext.CustomerFollowUp
+                                       select customer)
+                        .OrderBy(customer => customer.FollowId)
+                        .Skip((currentPage - 1) * maxRows)
+                        .Take(maxRows).ToList();
+
+            double pageCount = (double)((decimal)this._followupsContext.CustomerFollowUp.Count() / Convert.ToDecimal(maxRows));
+            customerModel.custPageNumber = (int)Math.Ceiling(pageCount);
+           
+            customerModel.ResultCustomer= _mapper.Map<List<CustomerFollowUp>, List<Customer>>(result);
+            customerModel.custCurrentPageNumber = currentPage;
+
+            return customerModel;
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

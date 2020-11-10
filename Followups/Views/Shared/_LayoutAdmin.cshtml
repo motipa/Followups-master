@@ -17,8 +17,17 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="~/ssb/template/assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="~/ssb/template/assets/images/favicon.png" />
+    <link href="~/ssb-tables/css/themes/all-themes.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <!-- Bootstrap Core Css -->
+    <!-- Waves Effect Css -->
+
+
+
+    <link href="~/ssb-tables/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
     <style type="text/css">
         body, input {
             font-family: Calibri, Arial;
@@ -57,38 +66,9 @@
                         </div>
                         <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                         <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-settings text-primary"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-onepassword  text-info"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-calendar-today text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                                </div>
-                            </a>
+                            
+                           
+                          
                         </div>
                     </div>
                 </li>
@@ -113,11 +93,23 @@
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="#">Manual Entry</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Excel Upload</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/Home/Index">Manual Entry</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/Home/Index">Excel Upload</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/Reports/Index">Reports</a></li>
 
                         </ul>
                     </div>
+                </li>
+
+                <li class="nav-item menu-items">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-laptop"></i>
+                        </span>
+                        <span class="menu-title">Add</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+
                 </li>
 
                 <li class="nav-item menu-items">
@@ -177,11 +169,7 @@
                                         <i class="mdi mdi-logout text-danger">
                                             <a href="/Login/Logout">Log out</a>
                                         </i>
-
-                                    </div>
                                 </div>
-
-
                                 <div class="dropdown-divider"></div>
 
                             </div>
@@ -211,6 +199,12 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="../ssb/template/assets/vendors/js/vendor.bundle.base.js"></script>
@@ -223,6 +217,38 @@
     <script src="../ssb/template/assets/js/misc.js"></script>
     <script src="../ssb/template/js/settings.js"></script>
     <script src="../ssb/template/assets/js/todolist.js"></script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="~/ssb-tables/plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="~/ssb-tables/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="~/ssb-tables/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="../../plugins/node-waves/waves.js"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="~/ssb-tables/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="~/ssb-tables/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+    <!-- Custom Js -->
+    <script src="~/ssb-tables/js/admin.js"></script>
+    <script src="~/ssb-tables/js/pages/tables/jquery-datatable.js"></script>
+
+    <!-- Demo Js -->
+    <script src="~/ssb-tables/js/demo.js"></script>
+
     <!-- endinject -->
     <!-- Custom js for this page -->
     <!-- End custom js for this page -->
