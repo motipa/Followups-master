@@ -21,9 +21,18 @@
 
                 <div class="form-group row">
                     <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
+                    <div class="col-sm-9 ">
+
+                        @Html.TextBoxFor(b => b.Employee.Name, new { @class = "form-control text-white" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Type</label>
                     <div class="col-sm-9">
 
-                        @Html.TextBoxFor(b => b.Employee.Name, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.User.type,
+                    new SelectList(Enum.GetValues(typeof(Followups.Models.Type))),
+                    "Select User", new { @class = "form-control text-white" })
                     </div>
                 </div>
                 <div class="form-group row">
@@ -33,18 +42,19 @@
                         @Html.TextBoxFor(b => b.Employee.Email, new { @class = "form-control" })
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
                     <div class="col-sm-9">
 
-                        @Html.TextBoxFor(b => b.Employee.Phone, new { @class = "form-control" })
+                        @Html.TextBoxFor(b => b.Employee.Phone, new { @class = "form-control text-white" })
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
                     <div class="col-sm-9">
 
-                        @Html.PasswordFor(a => a.User.password, new { @class = "form-control" })
+                        @Html.PasswordFor(a => a.User.password, new { @class = "form-control text-white" })
                     </div>
                 </div>
 

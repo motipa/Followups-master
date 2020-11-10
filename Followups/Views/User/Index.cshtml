@@ -2,90 +2,90 @@
 @{ Layout = "~/Views/Shared/_LayoutUser.cshtml"; }
 
 @{ ViewData["Title"] = "Home Page"; }
-
+<h2>Customer FollowUp</h2>
 <div class="main-panel">
-    @using (Html.BeginForm("Search", "User", FormMethod.Post, new { @class = "forms-sample" }))
+    @using (Html.BeginForm("Index", "User", FormMethod.Post, new { @class = "forms-sample" }))
     {
-<div class="row">
-    <table class="text-white">
+    <div class="row">
+        <div class="row col-sm-12">
+            <div class="form-group row col-sm-4">
+                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">From Date :</label>
+                <div class="col-sm-9 ">
+
+                    @Html.TextBoxFor(a => a.SearchDate.FromDate, new { @type = "date", @class = "form-control text-white" })
+                </div>
+            </div>
+            <div class="form-group row col-sm-4">
+                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">To Date :</label>
+                <div class="col-sm-9 ">
+
+                    @Html.TextBoxFor(a => a.SearchDate.ToDate, new { @type = "date", @class = "form-control text-white" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9 ">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        
+
+    </div>}
+    <hr />
+    @using (Html.BeginForm("Index", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+@Html.AntiForgeryToken()
+
+                <table class="table table-striped text-white" id="tblLoad">
+                    <thead>
+                        <tr>
+                            <td><B>Phone</B></td>
+                            <td>Country</td>
+                            <td>Customer's Interest</td>
+                            <td>Date of Contact</td>
+                            <td>ID Status</td>
+                            <td>Sales Person</td>
+
+                        </tr>
+                    </thead>
+                    @for (int i = 0; i <= Model.UserResultviewCustomer.Count - 1; i++)
+                    {
+    <tbody>
         <tr>
             <td>
+                @Html.DisplayFor(a => Model.UserResultviewCustomer[i].Phone, new { @class = "form-control" })
+                @Html.HiddenFor(a => Model.UserResultviewCustomer[i].FollowId)
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CountryId,
+                   new SelectList(ViewBag.Country, "Id", "Name"),                    
+                   new { @class = "form-control text-white" })
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CustomerInterest,
+                 new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                   "Select Status", new { @class = "form-control text-white" })
+            </td>
+            <td>
+                @Html.EditorFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
+                
+            </td>
+            <td>
+                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,
+                 new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                  "Select Status", new { @class = "form-control text-white" })
 
-                <label>From Date</label>
             </td>
             <td>
-                @Html.TextBoxFor(a => a.SearchDate.FromDate, new { @type = "date", @class = "form-control text-white" })
-            </td>
-            <td>
-                <label>To Date</label>
-            </td>
-            <td>
-                @Html.TextBoxFor(a => a.SearchDate.ToDate, new { @type = "date", @class = "form-control text-white" })               
-
-            </td>
-            <td>
-                <input type="submit" value="Search" class="btn btn-primary" />
-            </td>
-            <td>
+                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].SalesPersonId,
+                 new SelectList(ViewBag.SalesPerson, "Id", "Name"),
+                new { @class = "form-control ", @disabled = "disabled" })
             </td>
         </tr>
-        <tr>
-            <td></td>
+    </tbody>
+}
+                </table>
+                  <hr />
+                 <input type="submit" value="Save" class="btn btn-success" />}
 
-        </tr>
-    </table>
-</div> 
-    }
-                                <hr />
-                                                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                {
-                                @Html.AntiForgeryToken()
-
-                                                    <table class="table table-striped text-white" id="tblLoad">
-                                                        <thead>
-                                                            <tr>
-                                                                <td><B>Phone</B></td>
-                                                                <td>Country</td>
-                                                                <td>Customer's Interest</td>
-                                                                <td>Date of Contact</td>
-                                                                <td>ID Status</td>
-                                                                <td>Sales Person</td>
-
-                                                            </tr>
-                                                        </thead>
-                                                        @for (int i = 0; i <= Model.UserResultviewCustomer.Count - 1; i++)
-                                                        {
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(a => Model.UserResultviewCustomer[i].Phone, new { @class = "form-control" })
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(m => m.UserResultviewCustomer[i].CountryId,
-                                                                                                    new { @class = "form-control text-white" })
-                                            </td>
-                                            <td>
-                                                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CustomerInterest,
-                                                                                                           new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                                                                               "Select Status", new { @class = "form-control text-white" })
-                                            </td>
-                                            <td>
-                                                @Html.TextBoxFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
-                                                @*<input type="date" id="DateContact" name="DateContact">*@
-                                            </td>
-                                            <td>
-                                                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,
-                                                                                                   new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                                                                                                   "Select Status", new { @class = "form-control text-white" })
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(m => m.UserResultviewCustomer[i].SalesPersonId,
-                                                                                                new { @class = "form-control text-white" })
-                                            </td>
-                                        </tr>
-                                    </tbody>}
-
-                                                    </table>
-                                                                        <hr />
-                                                                                            <input type="submit" value="Save" class="btn btn-success" />}
-                                                            </div>
+</div>
