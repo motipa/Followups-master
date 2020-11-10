@@ -15,6 +15,7 @@ namespace Followups.Controllers
     {
         private readonly FollowUpDbContext _dbcontext;
         const string SessionName = "_Name";
+        const string SessionId = "_Id";
         const string SessionAge = "_Age";
         public LoginController(FollowUpDbContext followupsContext)
         {
@@ -47,11 +48,14 @@ namespace Followups.Controllers
             if(userViewModel.type.ToString()=="admin" && user.FirstOrDefault().Type.Trim()=="admin")
             {
                 HttpContext.Session.SetString(SessionName, user.FirstOrDefault().Username);
+                HttpContext.Session.SetInt32(SessionId, user.FirstOrDefault().Id);
                 return RedirectToAction("Index","Home");
             }
             if (userViewModel.type.ToString() == "user" && user.FirstOrDefault().Type.Trim() == "user")
             {
-                HttpContext.Session.SetString(SessionName, user.FirstOrDefault().Username);
+                HttpContext.Session.SetString(SessionName, user.FirstOrDefault().Username);                
+                HttpContext.Session.SetString(SessionId, user.FirstOrDefault().Empid.ToString());
+                //TempData["PersonId"] = user.FirstOrDefault().Empid.ToString();                
                 return RedirectToAction("Index","User");
             }
             ViewBag.Message = "Invalid login";

@@ -1,6 +1,7 @@
 ﻿using Followups.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,11 +9,12 @@ namespace CustomerFollow.Models
 {
     public class Customer
     {
+        public int FollowId { get; set; }
         public string Phone { get; set; }
-        public string Country { get; set; }
-        public string CustInterest { get; set; }
-        public DateTime ContactDate { get; set; }
-        public string IdStatus { get; set; }
-        public string SalesPerson { get; set; }        
+        public string CustomerInterest { get; set; }
+        public DateTime? DateOfContact { get; set; }
+        public string Idstatus { get; set; }
+        public int? CountryId { get; set; }
+        public int? SalesPersonId { get; set; }
     }
 }

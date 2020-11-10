@@ -23,7 +23,7 @@ namespace Followups.Controllers
         private readonly FollowUpDbContext _followupsContext;
         const string SessionName = "_Name";
         const string SessionAge = "_Age";
-        public HomeController(ILogger<HomeController> logger, FollowUpDbContext followupsContext,IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, FollowUpDbContext followupsContext, IMapper mapper)
         {
             _logger = logger;
             _followupsContext = followupsContext;
@@ -32,7 +32,6 @@ namespace Followups.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             ViewBag.Title = "Admin";
             CustomerResultViewModel _custResult = new CustomerResultViewModel();
@@ -45,10 +44,10 @@ namespace Followups.Controllers
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
-            _custResult.ResultCountry.Insert(0, new Countries { Id = 0, Name = "--Select--" });
+            _custResult.ResultCountry.Insert(0, new Countries { PhoneCode = 0, Name = "--Select--" });
             ViewBag.Country = _custResult.ResultCountry;
-            return View(_custResult); 
-            
+            return View(_custResult);
+
         }
         [HttpPost]
         public IActionResult Index(CustomerResultViewModel customers, IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
@@ -57,17 +56,16 @@ namespace Followups.Controllers
             _custResult.ResultCustomer = new List<Customer>();
             _custResult.ResultSalesPerson = new List<Employee>();
             _custResult.Customer = new Customer();
-            
+            //Sales Persons Details
             _custResult.ResultSalesPerson = (from c in _followupsContext.Employee select c).ToList();
             _custResult.ResultSalesPerson.Insert(0, new Employee { Id = 0, Name = "--Select--" });
-            // _customer.FirstOrDefault().SalesEmployee = cl;
             ViewBag.SalesPerson = _custResult.ResultSalesPerson;
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
-            _custResult.ResultCountry.Insert(0, new Countries { Id = 0, Name = "--Select--" });           
+            _custResult.ResultCountry.Insert(0, new Countries { PhoneCode = 0, Name = "--Select--" });
             ViewBag.Country = _custResult.ResultCountry;
-
+            //Upload Files
             if (file != null)
             {
                 string filename = $"{hostingEnvironment.WebRootPath}\\files\\{ file.FileName}";
@@ -76,76 +74,77 @@ namespace Followups.Controllers
                     file.CopyTo(fileStream);
                     fileStream.Flush();
                 }
-                _custResult.ResultCustomer = this.GetCustDetails(file.FileName);               
+                _custResult.ResultCustomer = this.GetCustDetails(file.FileName);
                 return View(_custResult);
             }
+            //Save Details
             else
             {
                 if (customers.ResultCustomer != null)
                 {
-                    foreach (var item in customers.ResultCustomer)
+                    using (var context = new FollowUpDbContext())
                     {
-                        CustomerFollowUp CustResult = new CustomerFollowUp();
-                        CustResult.CountryId = int.Parse(item.Country);
-                        CustResult.CustomerInterest = item.CustInterest;
-                        CustResult.Phone = item.Phone;
-                        CustResult.DateOfContact = item.ContactDate;
-                        CustResult.Idstatus = item.IdStatus;
-                        CustResult.SalesPersonId = int.Parse(item.SalesPerson);
-                        _followupsContext.Add(CustResult);
-                        _followupsContext.SaveChanges();
+                        foreach (var item in customers.ResultCustomer)
+                        {
+                            CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(item);
+                            context.CustomerFollowUp.Add(CustResult);
+                            context.SaveChanges();
+                        }
                     }
+                   
                 }
+                //Save Details Mannually
                 if (customers.Customer != null)
-                {                    
+                {
                     var details = customers.Customer;
                     string d = "1/1/0001 12:00:00 AM";
                     DateTime Defaultdate = Convert.ToDateTime(d);
-                    if (customers.Customer.ContactDate != Defaultdate)
+                    if (customers.Customer.DateOfContact != Defaultdate)
                     {
-                        CustomerFollowUp CustResult = new CustomerFollowUp();
-                        CustResult.Phone = details.Phone;
-                        CustResult.CountryId = int.Parse(details.Country);
-                        CustResult.CustomerInterest = details.CustInterest;
-
-                        CustResult.DateOfContact = details.ContactDate;
-                        CustResult.Idstatus = details.IdStatus;
-                        CustResult.SalesPersonId = int.Parse(details.SalesPerson);
-                        _followupsContext.Add(CustResult);
-                        _followupsContext.SaveChanges();
+                        CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(customers.Customer);
+                        _followupsContext.CustomerFollowUp.Add(CustResult);
+                        _followupsContext.SaveChanges();                       
                     }
                     else
                     {
                         return RedirectToAction("Index");
                     }
                 }
-                    return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
         }
         private List<Customer> GetCustDetails(string fname)
         {
             //CustomerResultViewModel _custResult = new CustomerResultViewModel();
-            List<Customer>  _Customer = new List<Customer>();
-          
+            List<Customer> _Customer = new List<Customer>();
+
             var filename = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fname;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             using (var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
+                    
                     while (reader.Read())
                     {
-                        _Customer.Add(new Customer()
+                        string Phone = reader.GetValue(0).ToString();
+                        if (Phone != "Phone")
                         {
-                            Phone = reader.GetValue(0).ToString()
-                        });
+                            int Code = Convert.ToInt32(Phone.Substring(0, 2));
+                            _Customer.Add(new Customer()
+                            {
+                                Phone = reader.GetValue(0).ToString(),
+                                CountryId = Code
+
+                            }); ;
+                        }
                     }
                 }
-                _Customer.RemoveAt(0);
+                //_Customer.RemoveAt(0);
             }
             return _Customer;
         }
-       
+
         public IActionResult Privacy()
         {
             return View();
@@ -170,16 +169,18 @@ namespace Followups.Controllers
                 user.Username = employee.Email;
                 user.IsActive = true;
                 user.IsDelete = false;
+                user.Type = userModel.User.type.ToString();
                 context.User.Add(user);
-                context.SaveChanges();
-
-
-
+                int a = context.SaveChanges();
+                if (a > 0)
+                {
+                    userModel = null;
+                }
             }
             ViewBag.Name = HttpContext.Session.GetString(SessionName);
             ViewBag.Title = "User";
             return View();
-            
+
         }
 
 

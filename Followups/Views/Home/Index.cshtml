@@ -6,28 +6,29 @@
 <div class="main-panel">
     <form enctype="multipart/form-data" method="post">
         <div class="row">
-            <table>
-                <tr>
-                    <td>
-                        <input type="file" name="file" />
-                    </td>
-                    <td>
-                        <input type="submit" value="Upload" class="btn btn-primary" />
-                    </td>
-                    <td>
+            <div class="row col-sm-12">
+                <div class="form-group row col-sm-4">
+
+                    <div class="col-sm-9 ">
+                        <input type="file" name="file" class="form-control" />
+
+                    </div>
+                    <div class="col-sm-3"><input type="submit" value="Upload" class="btn btn-primary" /></div>
+                </div>
+                <div class="form-group row col-sm-4">
+                    
+                   
+                    <div class="col-sm-9 ">
+
                         <a class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="createbuttonDropdown" href="#">+ Add New Customer</a>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-
-                </tr>
-            </table>
-        </div>
-
-        <hr />
-    </form>
+                    </div>
+                </div>
+               
+            </div>
+            </div>
+            <hr />
+</form>
     @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
 @Html.AntiForgeryToken()
@@ -54,29 +55,29 @@
                 @*<input type="text" asp-for="@item.Phone" />*@
             </td>
             <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].Country,
-                                              new SelectList(ViewBag.Country, "Id", "Name"),
+                @Html.DropDownListFor(m => m.ResultCustomer[i].CountryId,
+                                              new SelectList(ViewBag.Country, "PhoneCode", "Name"),
                                                new { @class = "form-control text-white" })
             </td>
             <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].CustInterest,
+                @Html.DropDownListFor(m => m.ResultCustomer[i].CustomerInterest,
                                                   new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
                                                   "Select Status", new { @class = "form-control text-white" })
             </td>
             <td>
-                @Html.TextBoxFor(a => Model.ResultCustomer[i].ContactDate, new { @type = "date", @class = "form-control text-white" })
+                @Html.TextBoxFor(a => Model.ResultCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
                 @*<input type="date" id="DateContact" name="DateContact">*@
             </td>
             <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].IdStatus,
+                @Html.DropDownListFor(m => m.ResultCustomer[i].Idstatus,
                                               new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
                                               "Select Status", new { @class = "form-control text-white" })
 
             </td>
             <td>
-                @Html.DropDownListFor(m => m.ResultCustomer[i].SalesPerson,
+                @Html.DropDownListFor(m => m.ResultCustomer[i].SalesPersonId,
                                                   new SelectList(ViewBag.SalesPerson, "Id", "Name"),
-                                                   new { @class = "form-control text-white" })
+                                                   new { @class = "form-control text-white", @required = "required" })
             </td>
         </tr>
     </tbody>
@@ -110,21 +111,21 @@
                     <label for="Phone" class="col-sm-3 col-form-label">Phone</label>
                     <div class="col-sm-9">
 
-                        @Html.TextBoxFor(a => a.Customer.Phone, new { @class = "form-control text-white" })
+                        @Html.TextBoxFor(a => a.Customer.Phone, new { @class = "form-control text-white", @required = "required" })
                     </div>
                 </div>
                                 <div class="form-group row">
                                     <label for="Country" class="col-sm-3 col-form-label">Country</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(b => b.Customer.Country,
-                                                                        new SelectList(ViewBag.Country, "Id", "Name")
+                                        @Html.DropDownListFor(b => b.Customer.CountryId,
+                                                                        new SelectList(ViewBag.Country, "PhoneCode", "Name")
                                                                         , new { @class = "form-control text-white" })
                                     </div>
                                 </div>
                                                 <div class="form-group row">
                                                     <label for="Interest" class="col-sm-3 col-form-label">Customer Interest</label>
                                                     <div class="col-sm-9">
-                                                        @Html.DropDownListFor(b => b.Customer.CustInterest,
+                                                        @Html.DropDownListFor(b => b.Customer.CustomerInterest,
                                                                                              new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
                                                                                              "Select Status", new { @class = "form-control text-white" })
                                                     </div>
@@ -132,14 +133,14 @@
                                                                 <div class="form-group row">
                                                                     <label for="Contact" class="col-sm-3 col-form-label">Contact Date</label>
                                                                     <div class="col-sm-9">
-                                                                        @Html.TextBoxFor(a => a.Customer.ContactDate, new { @type = "date", @class = "form-control text-white" })
+                                                                        @Html.TextBoxFor(a => a.Customer.DateOfContact, new { @type = "date", @class = "form-control text-white" })
 
                                                                     </div>
                                                                 </div>
                                                                                 <div class="form-group row">
                                                                                     <label for="Status" class="col-sm-3 col-form-label">ID Status</label>
                                                                                     <div class="col-sm-9">
-                                                                                        @Html.DropDownListFor(b => b.Customer.IdStatus,
+                                                                                        @Html.DropDownListFor(b => b.Customer.Idstatus,
                                                                                                                         new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
                                                                                                                         "Select Status", new { @class = "form-control text-white" })
                                                                                     </div>
@@ -148,12 +149,13 @@
                                                                                                     <label for="Status" class="col-sm-3 col-form-label">Sales Person</label>
                                                                                                     <div class="col-sm-9">
 
-                                                                                                        @Html.DropDownListFor(b => b.Customer.SalesPerson,
+                                                                                                        @Html.DropDownListFor(b => b.Customer.SalesPersonId,
                                                                                                                                             new SelectList(ViewBag.SalesPerson, "Id", "Name"),
-                                                                                                                                             new { @class = "form-control text-white" })
+                                                                                                                                             new { @class = "form-control text-white", @id = "ddlSales" })
+                                                                                                        
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                                <button type="submit" class="btn btn-primary mr-2">Save</button>
+                                                                                                                <button type="submit" id="btnMannual" class="btn btn-primary mr-2">Save</button>
                                                                                                                                 <button class="btn btn-dark">Cancel</button>}
                         </div>
                     </div>
@@ -165,4 +167,15 @@
         </div>
     </div>
     </div>
+<script src="~/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnMannual").click(function (e) {
+            debugger
+            if ($("#ddlSales").val() === "0") {
+                alert("Please Select Sales Person")
+                // display error msg beside ddl too
+            }
+    });
+</script>
     
