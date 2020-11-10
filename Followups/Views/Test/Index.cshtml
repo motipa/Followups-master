@@ -1,0 +1,106 @@
+﻿@model List<EmployeeViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Work Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<head>
+    @* Links for the style sheets*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,dt-1.10.9,b-1.0.3,b-flash-1.0.3,b-html5-1.0.3/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/dataTables.bootstrap.css" />
+
+    @* Links for the DataTable and various buttons (PDF, Excel, Copy, Print) *@
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+</head>
+
+@* Text boxes used for user input *@
+<table border="0" cellspacing="5" cellpadding="5">
+    <tbody>
+        <tr>
+            <td style="margin: 10px; padding: 5px;">Start Date:</td>
+            <td><input name="min" id="min" type="text"></td>
+        </tr>
+        <tr>
+            <td style="margin: 10px; padding: 5px;">End Date:</td>
+            <td><input name="max" id="max" type="text"></td>
+        </tr>
+    </tbody>
+</table>
+@* Sets the header names *@
+<table class="table" id="reportTable">
+    <thead>
+        <tr>
+            <th width="150">
+                Date
+            </th>
+            <th width="150">
+                Name
+            </th>
+            <th width="150">
+                Description
+            </th>
+            <th width="150">
+                Location
+            </th>
+            <th width="150">
+                Work Hours
+            </th>
+            <th width="150">
+                District
+            </th>
+            <th width="150">
+                Category
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @* Gathers the data from SQL database *@
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.Designation)
+                </td>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td align="left">
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+               
+               
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Calls the script that handles the button inputs *@
+<script type="text/javascript" src="~/Scripts/buttons.js"></script>
+
+@* Calls the script that handles the user inputs for the date range *@
+<script type="text/javascript" src="~/Scripts/daterange.js"></script>
