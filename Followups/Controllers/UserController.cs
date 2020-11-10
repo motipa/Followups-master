@@ -49,10 +49,10 @@ namespace Followups.Controllers
             //int SalesPersonId = 2;
             if (UserReult.SearchDate != null)
             {
-                _userResultViewModels.UserResultviewCustomer = _followupsContext.CustomerFollowUp.Where(x => x.DateOfContact >= UserReult.SearchDate.FromDate && x.DateOfContact <= UserReult.SearchDate.ToDate && x.SalesPersonId==SalesPersonId).ToList();
+                _userResultViewModels.UserResultviewCustomer = _followupsContext.CustomerFollowUp.Where(x => x.DateOfContact >= UserReult.SearchDate.FromDate && x.DateOfContact <= UserReult.SearchDate.ToDate &&  x.SalesPersonId==SalesPersonId).ToList();
                 _userResultViewModels.CountryResult = new List<Countries>();
                 _userResultViewModels.CountryResult = (from d in _followupsContext.Countries select d).ToList();
-                _userResultViewModels.CountryResult.Insert(0, new Countries { Id = 0, Name = "--Select--" });
+                _userResultViewModels.CountryResult.Insert(0, new Countries { PhoneCode = 0, Name = "--Select--" });
                 ViewBag.Country = _userResultViewModels.CountryResult;
                 //Bind Sales Person
                 _userResultViewModels.ResultSalesPerson = new List<Employee>();
