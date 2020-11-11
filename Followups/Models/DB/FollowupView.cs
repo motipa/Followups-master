@@ -12,5 +12,6 @@ namespace Followups.Models.DB
         public string Idstatus { get; set; }
         public string Country { get; set; }
         public string Employee { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 }

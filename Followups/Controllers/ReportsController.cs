@@ -28,7 +28,7 @@ namespace Followups.Controllers
         {
             DateTime d3 = Convert.ToDateTime(d1);
             DateTime d4 = Convert.ToDateTime(d2);
-            var customers =await this.Context.FollowupView.Where(x => x.DateOfContact >= d3 && x.DateOfContact <= d4).ToListAsync();
+            var customers =await this.Context.FollowupView.Where(x => x.DateOfContact >= d3 && x.DateOfContact <= d4 || x.CreateDate >= d3 && x.CreateDate <= d4).ToListAsync();
             return Json(JsonConvert.SerializeObject(customers));          
         }
     }

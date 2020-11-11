@@ -110,6 +110,8 @@ namespace Followups.Models.DB
                     .HasMaxLength(80)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
                 entity.Property(e => e.CustomerInterest)
                     .HasMaxLength(5)
                     .IsUnicode(false);

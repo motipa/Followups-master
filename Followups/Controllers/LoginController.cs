@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Followups.Models;
 using Followups.Models.DB;
@@ -36,9 +38,8 @@ namespace Followups.Controllers
 
         public async Task<IActionResult> IndexAsync(UserViewModel userViewModel)
         {
-
-            var user =await _dbcontext.User.Where(x => x.Username == userViewModel.username && x.Password==userViewModel.password).ToListAsync();
-
+            string Password = MD5Hash(userViewModel.password);
+            var user =await _dbcontext.User.Where(x => x.Username == userViewModel.username && x.Password== Password).ToListAsync();
             if(user.Count<=0)
             {
                 ViewBag.Message = "Invalid login";
@@ -61,6 +62,23 @@ namespace Followups.Controllers
             ViewBag.Message = "Invalid login";
 
             return View(userViewModel);
+        }
+        //Password Encrypt
+        public static string MD5Hash(string text)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            //compute hash from the bytes of text  
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
+            //get hash result after compute it  
+            byte[] result = md5.Hash;
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < result.Length; i++)
+            {
+                //change it into 2 hexadecimal digits  
+                //for each byte  
+                strBuilder.Append(result[i].ToString("x2"));
+            }
+            return strBuilder.ToString();
         }
     }
 }
