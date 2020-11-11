@@ -51,7 +51,7 @@ namespace Followups.Controllers
             DateTime Cur_date = Convert.ToDateTime(Curr_date);
             if (UserReult.SearchDate != null)
             {
-                _userResultViewModels.UserResultviewCustomer = _followupsContext.CustomerFollowUp.Where(x => x.DateOfContact >= UserReult.SearchDate.FromDate && x.DateOfContact <= UserReult.SearchDate.ToDate || x.CreateDate>= Cur_date && x.SalesPersonId==SalesPersonId).ToList();
+                _userResultViewModels.UserResultviewCustomer = _followupsContext.CustomerFollowUp.Where(x => x.DateOfContact >= UserReult.SearchDate.FromDate && x.DateOfContact <= UserReult.SearchDate.ToDate && x.SalesPersonId == SalesPersonId || x.CreateDate>= Cur_date ).ToList();
                 _userResultViewModels.CountryResult = new List<Countries>();
                 _userResultViewModels.CountryResult = (from d in _followupsContext.Countries select d).ToList();
                 _userResultViewModels.CountryResult.Insert(0, new Countries { Id = 0, Name = "--Select--" });

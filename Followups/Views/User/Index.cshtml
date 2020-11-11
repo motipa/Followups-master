@@ -6,86 +6,130 @@
 <div class="main-panel">
     @using (Html.BeginForm("Index", "User", FormMethod.Post, new { @class = "forms-sample" }))
     {
-    <div class="row">
-        <div class="row col-sm-12">
-            <div class="form-group row col-sm-4">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">From Date :</label>
-                <div class="col-sm-9 ">
+        <div class="row">
+            <div class="row col-sm-12">
+                <div class="form-group row col-sm-4">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">From Date :</label>
+                    <div class="col-sm-9 ">
 
-                    @Html.TextBoxFor(a => a.SearchDate.FromDate, new { @type = "date", @class = "form-control text-white" })
+                        @Html.TextBoxFor(a => a.SearchDate.FromDate, new { @type = "date", @class = "form-control text-white" })
+                    </div>
+                </div>
+                <div class="form-group row col-sm-4">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">To Date :</label>
+                    <div class="col-sm-9 ">
+
+                        @Html.TextBoxFor(a => a.SearchDate.ToDate, new { @type = "date", @class = "form-control text-white" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-9 ">
+                        <input type="submit" value="Search" class="btn btn-primary" />
+                    </div>
                 </div>
             </div>
-            <div class="form-group row col-sm-4">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">To Date :</label>
-                <div class="col-sm-9 ">
 
-                    @Html.TextBoxFor(a => a.SearchDate.ToDate, new { @type = "date", @class = "form-control text-white" })
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-9 ">
-                    <input type="submit" value="Search" class="btn btn-primary" />
-                </div>
-            </div>
-        </div>
-        
 
-    </div>}
+        </div>}
     <hr />
     @using (Html.BeginForm("Index", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-@Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-                <table class="table table-striped text-white" id="tblLoad">
-                    <thead>
-                        <tr>
-                            <td><B>Phone</B></td>
-                            <td>Country</td>
-                            <td>Customer's Interest</td>
-                            <td>Date of Contact</td>
-                            <td>ID Status</td>
-                            <td>Sales Person</td>
+        <table class="table table-striped text-white" id="tblLoad">
+            <thead>
+                <tr>
+                    <td><B>Phone</B></td>
+                    <td>Country</td>
+                    <td>Customer's Interest</td>
+                    <td>Date of Contact</td>
+                    <td>ID Status</td>
+                    <td>Sales Person</td>
 
-                        </tr>
-                    </thead>
-                    @for (int i = 0; i <= Model.UserResultviewCustomer.Count - 1; i++)
-                    {
-    <tbody>
-        <tr>
-            <td>
-                @Html.DisplayFor(a => Model.UserResultviewCustomer[i].Phone, new { @class = "form-control" })
-                @Html.HiddenFor(a => Model.UserResultviewCustomer[i].FollowId)
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CountryId,
-                   new SelectList(ViewBag.Country, "PhoneCode", "Name"),                    
-                   new { @class = "form-control text-white" })
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CustomerInterest,
-                 new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                   "Select Status", new { @class = "form-control text-white" })
-            </td>
-            <td>
-                @Html.EditorFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
-                @Html.HiddenFor(a => Model.UserResultviewCustomer[i].ModifiedDate)
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,
-                 new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
-                  "Select Status", new { @class = "form-control text-white" })
+                </tr>
+            </thead>
+            @for (int i = 0; i <= Model.UserResultviewCustomer.Count - 1; i++)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(a => Model.UserResultviewCustomer[i].Phone, new { @class = "form-control" })
+                            @Html.HiddenFor(a => Model.UserResultviewCustomer[i].FollowId)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CountryId,
+                               new SelectList(ViewBag.Country, "PhoneCode", "Name"),
+                               new { @class = "form-control text-white" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.UserResultviewCustomer[i].CustomerInterest,
+                             new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                               "Select Status", new { @class = "form-control text-white" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
+                            @Html.HiddenFor(a => Model.UserResultviewCustomer[i].ModifiedDate)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,
+                             new SelectList(Enum.GetValues(typeof(Followups.Models.Status))),
+                              "Select Status", new { @class = "form-control text-white" })
 
-            </td>
-            <td>
-                @Html.DropDownListFor(m => m.UserResultviewCustomer[i].SalesPersonId,
-                 new SelectList(ViewBag.SalesPerson, "Id", "Name"),
-                new { @class = "form-control ", @disabled = "disabled" })
-            </td>
-        </tr>
-    </tbody>
-}
-                </table>
-                  <hr />
-                 <input type="submit" value="Save" class="btn btn-success" />}
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.UserResultviewCustomer[i].SalesPersonId,
+                             new SelectList(ViewBag.SalesPerson, "Id", "Name"),
+                            new { @class = "form-control ", @disabled = "disabled" })
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <hr />
+        <input type="submit" value="Save" class="btn btn-success" />}
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var totalRows = $('#tblLoad').find('tbody tr:has(td)').length;
+        var recordPerPage = 10;
+        var totalPages = Math.ceil(totalRows / recordPerPage);
+        var $pages = $('<div id="pages"></div>');
+        for (i = 0; i < totalPages; i++) {
+            $('<span class="pageNumber">&nbsp;' + (i + 1) + '</span>').appendTo($pages);
+        }
+        $pages.appendTo('#tblLoad');
+
+        $('.pageNumber').hover(
+            function () {
+                $(this).addClass('focus');
+            },
+            function () {
+                $(this).removeClass('focus');
+            }
+        );
+
+        $('table').find('tbody tr:has(td)').hide();
+        var tr = $('table tbody tr:has(td)');
+        for (var i = 0; i <= recordPerPage - 1; i++) {
+            $(tr[i]).show();
+        }
+        $('span').click(function (event) {
+            $('#tblLoad').find('tbody tr:has(td)').hide();
+            var nBegin = ($(this).text() - 1) * recordPerPage;
+            var nEnd = $(this).text() * recordPerPage - 1;
+            for (var i = nBegin; i <= nEnd; i++) {
+                $(tr[i]).show();
+            }
+        });
+
+    });
+
+</script>
