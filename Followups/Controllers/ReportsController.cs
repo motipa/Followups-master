@@ -24,11 +24,11 @@ namespace Followups.Controllers
             return View(new DateSearchModel());
         }      
         [HttpPost]
-        public IActionResult ReportResult(string d1,string d2)
+        public async Task<IActionResult> ReportResultAsync(string d1,string d2)
         {
-            DateTime d4 = Convert.ToDateTime(d1);
-            DateTime d3 = Convert.ToDateTime(d2);
-            var customers = this.Context.FollowupView.Where(x => x.DateOfContact >= d4 && x.DateOfContact <= d4).ToList();
+            DateTime d3 = Convert.ToDateTime(d1);
+            DateTime d4 = Convert.ToDateTime(d2);
+            var customers =await this.Context.FollowupView.Where(x => x.DateOfContact >= d3 && x.DateOfContact <= d4).ToListAsync();
             return Json(JsonConvert.SerializeObject(customers));          
         }
     }

@@ -68,7 +68,7 @@
             </td>
             <td>
                 @Html.EditorFor(a => Model.UserResultviewCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
-                
+                @Html.HiddenFor(a => Model.UserResultviewCustomer[i].ModifiedDate)
             </td>
             <td>
                 @Html.DropDownListFor(m => m.UserResultviewCustomer[i].Idstatus,

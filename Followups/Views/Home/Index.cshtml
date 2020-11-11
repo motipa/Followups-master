@@ -5,28 +5,43 @@
 
 <div class="main-panel">
     <form enctype="multipart/form-data" method="post">
-        <div class="row">
-            <div class="row col-sm-12">
-                <div class="form-group row col-sm-4">
+        
 
-                    <div class="col-sm-9 ">
-                        <input type="file" name="file" class="form-control" />
+        <!--Upload-->
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Customer FollowUp</h4>
+                    <p class="card-description">  </p>
 
+
+                    <div class="form-group row">
+                        <label for="filechoose" class="col-sm-3 col-form-label">Choose File</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="file" class="form-control" />
+                        </div>
                     </div>
-                    <div class="col-sm-3"><input type="submit" value="Upload" class="btn btn-primary" /></div>
-                </div>
-                <div class="form-group row col-sm-4">
 
-
-                    <div class="col-sm-9 ">
-
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="createbuttonDropdown" href="#">+ Add New Customer</a>
-
+                    <div class="form-group row">
+                        <label for="Interest" class="col-sm-3 col-form-label">Country</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(b => b.Customer.CountryId,
+                                                           new SelectList(ViewBag.Country, "PhoneCode", "Name")
+                                                           , new { @class = "form-control text-white" })
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
 
+                        <div class="col-sm-9">
+                            <input type="submit" value="Upload" class="btn btn-primary" />
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
+        <!------------>
         <hr />
     </form>
     @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -66,7 +81,8 @@
                         </td>
                         <td>
                             @Html.TextBoxFor(a => Model.ResultCustomer[i].DateOfContact, new { @type = "date", @class = "form-control text-white" })
-                            @*<input type="date" id="DateContact" name="DateContact">*@
+                            @Html.HiddenFor(a => Model.ResultCustomer[i].CreateDate)
+
                         </td>
                         <td>
                             @Html.DropDownListFor(m => m.ResultCustomer[i].Idstatus,
@@ -88,7 +104,9 @@
         <input type="submit" value="Save" class="btn btn-success" />}
 </div>
 
-
+<div id="NewPopDiv">
+    
+</div>
 <!-- Modal -->
 
 <div class="modal fade" id="myModal" role="dialog">
@@ -177,13 +195,39 @@
 <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
-    $(document).ready(function () {       
-            $("#btnMannual").click(function () {               
-                if ($("#ddlSale").val() === "0") {
-                    alert("Please Select Sales Person")
-                    // display error msg beside ddl too
-                }
-            });
+    $(document).ready(function () {
+        
+        var totalRows = $('#tblLoad').find('tbody tr:has(td)').length;
+        var recordPerPage = 10;
+        var totalPages = Math.ceil(totalRows / recordPerPage);
+        var $pages = $('<div id="pages"></div>');
+        for (i = 0; i < totalPages; i++) {
+            $('<span class="pageNumber">&nbsp;' + (i + 1) + '</span>').appendTo($pages);
+        }
+        $pages.appendTo('#tblLoad');
+
+        $('.pageNumber').hover(
+            function () {
+                $(this).addClass('focus');
+            },
+            function () {
+                $(this).removeClass('focus');
+            }
+        );
+
+        $('table').find('tbody tr:has(td)').hide();
+        var tr = $('table tbody tr:has(td)');
+        for (var i = 0; i <= recordPerPage - 1; i++) {
+            $(tr[i]).show();
+        }
+        $('span').click(function (event) {
+            $('#tblLoad').find('tbody tr:has(td)').hide();
+            var nBegin = ($(this).text() - 1) * recordPerPage;
+            var nEnd = $(this).text() * recordPerPage - 1;
+            for (var i = nBegin; i <= nEnd; i++) {
+                $(tr[i]).show();
+            }
+        });
 
     });
 

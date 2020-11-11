@@ -1881,6 +1881,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="ClosedXML" Version="0.95.3" />
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="jquery.datatables" Version="1.10.15" />
     <PackageReference Include="jquery.dataTables.columnFilter" Version="1.0.2" />

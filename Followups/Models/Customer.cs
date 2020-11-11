@@ -13,6 +13,8 @@ namespace CustomerFollow.Models
         public string Phone { get; set; }
         public string CustomerInterest { get; set; }
         public DateTime? DateOfContact { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public string Idstatus { get; set; }
         public int? CountryId { get; set; }
         //[Required(ErrorMessage ="Please select Sales Person")]

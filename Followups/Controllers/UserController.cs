@@ -76,6 +76,9 @@ namespace Followups.Controllers
                         objCust.Idstatus = item.Idstatus;
                         objCust.Phone = objCust.Phone;
                         objCust.SalesPersonId = objCust.SalesPersonId;
+                        string d = DateTime.Now.ToShortDateString();
+                        DateTime cur_date = Convert.ToDateTime(d);
+                        objCust.ModifiedDate = cur_date;
                         _followupsContext.Entry(objCust).State = EntityState.Modified;
                         _followupsContext.SaveChanges();
                     }

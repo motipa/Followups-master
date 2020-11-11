@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Hosting;
 using ExcelDataReader;
 using Followups.Models.DB;
 using AutoMapper;
+using System.Data;
+using ClosedXML.Excel;
+using System.Web;
 
 namespace Followups.Controllers
 {
@@ -41,6 +44,7 @@ namespace Followups.Controllers
             _custResult.ResultSalesPerson = (from c in _followupsContext.Employee select c).ToList();
             _custResult.ResultSalesPerson.Insert(0, new Employee { Id = 0, Name = "--Select--" });
             ViewBag.SalesPerson = _custResult.ResultSalesPerson;
+            
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
@@ -60,26 +64,31 @@ namespace Followups.Controllers
             _custResult.ResultSalesPerson = (from c in _followupsContext.Employee select c).ToList();
             _custResult.ResultSalesPerson.Insert(0, new Employee { Id = 0, Name = "--Select--" });
             ViewBag.SalesPerson = _custResult.ResultSalesPerson;
+           
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
             _custResult.ResultCountry.Insert(0, new Countries { PhoneCode = 0, Name = "--Select--" });
             ViewBag.Country = _custResult.ResultCountry;
+           
             //Upload Files
             if (file != null)
             {
+                int Countrycode = (int)customers.Customer.CountryId;
                 string filename = $"{hostingEnvironment.WebRootPath}\\files\\{ file.FileName}";
                 using (FileStream fileStream = System.IO.File.Create(filename))
                 {
                     file.CopyTo(fileStream);
                     fileStream.Flush();
                 }
-                _custResult.ResultCustomer = this.GetCustDetails(file.FileName);
+                _custResult.ResultCustomer = this.GetCustDetails(file.FileName, Countrycode);
                 return View(_custResult);
             }
             //Save Details
             else
             {
+                DataTable dtUnassigned = new DataTable();
+                dtUnassigned.Columns.Add("Phone", typeof(string));
                 if (customers.ResultCustomer != null)
                 {
                     
@@ -93,14 +102,45 @@ namespace Followups.Controllers
                                 context.CustomerFollowUp.Add(CustResult);
                                 context.SaveChanges();
                             }
+                            else
+                            {
+                                dtUnassigned.Rows.Add(item.Phone);
+                                
+                            }   
+                        }
+                    } 
+                    if(dtUnassigned.Rows.Count>0)
+                    {
+                        string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        string fileName = "UnAssignedPhone.xlsx";
+                        using (var workbook = new XLWorkbook())
+                        {
+                            IXLWorksheet worksheet =
+                            workbook.Worksheets.Add("Sheet1");
+                            worksheet.Cell(1, 1).Value = "Phone";
+                            for (int i = 0; i <= dtUnassigned.Rows.Count-1; i++)
+                            {
+                                worksheet.Cell(i + 1, 1).Value = dtUnassigned.Rows[i]["Phone"].ToString();
+
+                            }
+                            using (var stream = new MemoryStream())
+                            {
+                                workbook.SaveAs(stream);
+                                var content = stream.ToArray();
+                                return File(content, contentType, fileName);
+                            }
                         }
                     }
-                   
                 }
                 //Save Details Mannually
                 if (customers.Customer != null)
                 {
-                    var details = customers.Customer;                   
+                    string d1 = DateTime.Now.ToShortDateString();
+                    DateTime Cur_date = Convert.ToDateTime(d1);
+                    _custResult.Customer.CreateDate = Cur_date;
+                    customers.Customer.CreateDate = Cur_date;
+                    var details = customers.Customer; 
+                    
                         CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(customers.Customer);
                         _followupsContext.CustomerFollowUp.Add(CustResult);
                         _followupsContext.SaveChanges();                      
@@ -109,30 +149,36 @@ namespace Followups.Controllers
                 return RedirectToAction("Index");
             }
         }
-        private List<Customer> GetCustDetails(string fname)
+        private List<Customer> GetCustDetails(string fname,int Country)
         {
             //CustomerResultViewModel _custResult = new CustomerResultViewModel();
             List<Customer> _Customer = new List<Customer>();
 
             var filename = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fname;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+           
             using (var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    
+                    string d = DateTime.Now.ToShortDateString();
+                    DateTime Cur_date = Convert.ToDateTime(d);
                     while (reader.Read())
                     {
+                       
                         string Phone = reader.GetValue(0).ToString();
                         if (Phone != "Phone")
                         {
-                            int Code = Convert.ToInt32(Phone.Substring(0, 2));
+                            //int Code = Convert.ToInt32(Phone.Substring(0, 2));
                             _Customer.Add(new Customer()
                             {
-                                Phone = reader.GetValue(0).ToString(),
-                                CountryId = Code
+                                CountryId = Country,
+                                Phone = Country + reader.GetValue(0).ToString(),
+                                                               
+                                CreateDate= Cur_date
 
-                            }); ;
+
+                            });
                         }
                     }
                 }

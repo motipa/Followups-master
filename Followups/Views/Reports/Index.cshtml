@@ -2,7 +2,7 @@
 
 @{ Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
 <div class="row">
-    <form>
+    
         <div class="row col-sm-12">
             <div class="form-group row col-sm-4">
                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">From Date :</label>
@@ -20,11 +20,10 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-9 ">
-                    <button id="btnsearch" class="btn btn-primary"></button>
+                    <button id="btnsearch" class="btn btn-primary">Search</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </div>   
 
 </div>
 
@@ -61,11 +60,13 @@
         debugger
 
         var dateSearc = { fromDate: $("#fromdate").val(), toDate: $("#todate").val() };
+        var d = $("#fromdate").val()
+        var d1 = $("#todate").val()
+
         $.ajax({
             type: "POST",
-
             dataType: "json",
-            url: '@Url.Action("AjaxMethod", "Reports")',
+            url: '/Reports/ReportResult?d1=' + d +'&d2='+d1,
             data: JSON.stringify({ dateSearc }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
