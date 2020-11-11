@@ -195,6 +195,10 @@ namespace Followups.Controllers
         [HttpPost]
         public IActionResult AddUser(UserModel userModel)
         {
+            if(userModel.User.password==null || userModel.User.password==string.Empty)
+            {
+                return View();
+            }
             string EncryptedPassword = MD5Hash(userModel.User.password);
             userModel.User.password = EncryptedPassword;
             using (var context = new FollowUpDbContext())
