@@ -23,7 +23,7 @@
                     <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
                     <div class="col-sm-9 ">
 
-                        @Html.TextBoxFor(b => b.Employee.Name, new { @class = "form-control text-white" })
+                        @Html.TextBoxFor(b => b.Employee.Name, new { @class = "form-control text-white",@required="required" })
                     </div>
                 </div>
                 <div class="form-group row">
@@ -39,7 +39,7 @@
                     <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
                     <div class="col-sm-9">
 
-                        @Html.TextBoxFor(b => b.Employee.Email, new { @class = "form-control" })
+                        @Html.TextBoxFor(b => b.Employee.Email, new { @class = "form-control", @required = "required" })
                     </div>
                 </div>
 
@@ -54,13 +54,14 @@
                     <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
                     <div class="col-sm-9">
 
-                        @Html.PasswordFor(a => a.User.password, new { @class = "form-control text-white" })
+                        @Html.PasswordFor(a => a.User.password, new { @class = "form-control text-white", @required = "required" })
                     </div>
                 </div>
 
 
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                <button class="btn btn-dark">Cancel</button>
+              
+
 
 
             }
