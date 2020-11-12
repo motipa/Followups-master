@@ -13,7 +13,7 @@ namespace Followups.Models
         [Required]
         public string username { get; set; }
         [Required]
-        public string password { get; set; }
+        public string password { get; set; }        
         [Required]
         public Type type { get; set; }
     }

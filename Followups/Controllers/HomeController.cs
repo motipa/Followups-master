@@ -46,7 +46,7 @@ namespace Followups.Controllers
             _custResult.ResultSalesPerson = (from c in _followupsContext.Employee select c).ToList();
             _custResult.ResultSalesPerson.Insert(0, new Employee { Id = 0, Name = "--Select--" });
             ViewBag.SalesPerson = _custResult.ResultSalesPerson;
-            
+
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
@@ -66,13 +66,13 @@ namespace Followups.Controllers
             _custResult.ResultSalesPerson = (from c in _followupsContext.Employee select c).ToList();
             _custResult.ResultSalesPerson.Insert(0, new Employee { Id = 0, Name = "--Select--" });
             ViewBag.SalesPerson = _custResult.ResultSalesPerson;
-           
+
             //Coutry Details
             _custResult.ResultCountry = new List<Countries>();
             _custResult.ResultCountry = (from d in _followupsContext.Countries select d).ToList();
             _custResult.ResultCountry.Insert(0, new Countries { PhoneCode = 0, Name = "--Select--" });
             ViewBag.Country = _custResult.ResultCountry;
-           
+
             //Upload Files
             if (file != null)
             {
@@ -93,7 +93,6 @@ namespace Followups.Controllers
                 dtUnassigned.Columns.Add("Phone", typeof(string));
                 if (customers.ResultCustomer != null)
                 {
-                    
                     using (var context = new FollowUpDbContext())
                     {
                         foreach (var item in customers.ResultCustomer)
@@ -107,11 +106,10 @@ namespace Followups.Controllers
                             else
                             {
                                 dtUnassigned.Rows.Add(item.Phone);
-                                
-                            }   
+                            }
                         }
-                    } 
-                    if(dtUnassigned.Rows.Count>0)
+                    }
+                    if (dtUnassigned.Rows.Count > 0)
                     {
                         string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                         string fileName = "UnAssignedPhone.xlsx";
@@ -120,7 +118,7 @@ namespace Followups.Controllers
                             IXLWorksheet worksheet =
                             workbook.Worksheets.Add("Sheet1");
                             worksheet.Cell(1, 1).Value = "Phone";
-                            for (int i = 0; i <= dtUnassigned.Rows.Count-1; i++)
+                            for (int i = 0; i <= dtUnassigned.Rows.Count - 1; i++)
                             {
                                 worksheet.Cell(i + 1, 1).Value = dtUnassigned.Rows[i]["Phone"].ToString();
 
@@ -141,24 +139,23 @@ namespace Followups.Controllers
                     DateTime Cur_date = Convert.ToDateTime(d1);
                     _custResult.Customer.CreateDate = Cur_date;
                     customers.Customer.CreateDate = Cur_date;
-                    var details = customers.Customer; 
-                    
-                        CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(customers.Customer);
-                        _followupsContext.CustomerFollowUp.Add(CustResult);
-                        _followupsContext.SaveChanges();                      
-                    
+                    var details = customers.Customer;
+
+                    CustomerFollowUp CustResult = _mapper.Map<CustomerFollowUp>(customers.Customer);
+                    _followupsContext.CustomerFollowUp.Add(CustResult);
+                    _followupsContext.SaveChanges();
+
                 }
                 return RedirectToAction("Index");
             }
         }
-        private List<Customer> GetCustDetails(string fname,int Country)
-        {
-            //CustomerResultViewModel _custResult = new CustomerResultViewModel();
+        private List<Customer> GetCustDetails(string fname, int Country)
+        {            
             List<Customer> _Customer = new List<Customer>();
 
             var filename = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fname;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-           
+
             using (var stream = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -167,7 +164,7 @@ namespace Followups.Controllers
                     DateTime Cur_date = Convert.ToDateTime(d);
                     while (reader.Read())
                     {
-                       
+
                         string Phone = reader.GetValue(0).ToString();
                         if (Phone != "Phone")
                         {
@@ -176,15 +173,11 @@ namespace Followups.Controllers
                             {
                                 CountryId = Country,
                                 Phone = Country + reader.GetValue(0).ToString(),
-                                                               
-                                CreateDate= Cur_date
-
-
+                                CreateDate = Cur_date
                             });
                         }
                     }
-                }
-                //_Customer.RemoveAt(0);
+                }               
             }
             return _Customer;
         }
@@ -195,7 +188,7 @@ namespace Followups.Controllers
         [HttpPost]
         public IActionResult AddUser(UserModel userModel)
         {
-            if(userModel.User.password==null || userModel.User.password==string.Empty)
+            if (userModel.User.password == null || userModel.User.password == string.Empty)
             {
                 return View();
             }
@@ -203,7 +196,6 @@ namespace Followups.Controllers
             userModel.User.password = EncryptedPassword;
             using (var context = new FollowUpDbContext())
             {
-
                 Employee employee = _mapper.Map<Employee>(userModel.Employee);
                 User user = _mapper.Map<User>(userModel.User);
 
@@ -250,16 +242,16 @@ namespace Followups.Controllers
             CustomerResultViewModel customerModel = new CustomerResultViewModel();
 
             customerModel.ResultCustomer = new List<Customer>();
-           var result = (from customer in this._followupsContext.CustomerFollowUp
-                                       select customer)
-                        .OrderBy(customer => customer.FollowId)
-                        .Skip((currentPage - 1) * maxRows)
-                        .Take(maxRows).ToList();
+            var result = (from customer in this._followupsContext.CustomerFollowUp
+                          select customer)
+                         .OrderBy(customer => customer.FollowId)
+                         .Skip((currentPage - 1) * maxRows)
+                         .Take(maxRows).ToList();
 
             double pageCount = (double)((decimal)this._followupsContext.CustomerFollowUp.Count() / Convert.ToDecimal(maxRows));
             customerModel.custPageNumber = (int)Math.Ceiling(pageCount);
-           
-            customerModel.ResultCustomer= _mapper.Map<List<CustomerFollowUp>, List<Customer>>(result);
+
+            customerModel.ResultCustomer = _mapper.Map<List<CustomerFollowUp>, List<Customer>>(result);
             customerModel.custCurrentPageNumber = currentPage;
 
             return customerModel;
@@ -270,5 +262,6 @@ namespace Followups.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+       
     }
 }
